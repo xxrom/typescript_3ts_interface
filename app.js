@@ -1,37 +1,41 @@
-function greet(person) {
-    console.log('Hello, ' + person.firstName);
+"use strict";
+// Simple Generic
+function echo(data) {
+    return data;
+} // get anything inside =)
+console.log(echo("niktia").length);
+console.log(echo(27));
+console.log(echo({ name: 'Nikita', age: 22 }));
+// Better Generic
+function betterEcho(data) {
+    return data;
 }
-function changeName(person) {
-    person.firstName = 'annA';
+console.log(betterEcho("niktia").length);
+// console.log(betterEcho(27).length); // cant use length
+console.log(betterEcho({ name: 'Nikita', age: 22 }));
+// Built-in Generics
+var testResults = [1.88, 2.33];
+testResults.push(-2.22);
+// testResults.push('string'); // error, should be number
+console.log(testResults);
+// Arrays
+function printAll(args) {
+    args.forEach(function (element) { return console.log(element); });
 }
-var person = {
-    firstName: "Nikita",
-    age: 22,
-    hobbies: ['cooking', 'sport'],
-    greet: function (lastName) {
-        console.log('Hi ' + this.firstName + ' => ' + lastName);
+printAll(['string', 'apple']);
+// Generic Types
+var echo2 = echo;
+console.log(echo2('Something'));
+// Generic Class
+var SimpleMath = /** @class */ (function () {
+    function SimpleMath() {
     }
-};
-// greet(person); // не проверяем все параметры в объекте!!!
-// greet({ firstName: 'name', age: 22 }); // проверяем все параметры и полное соответсвие !!!
-changeName(person);
-greet(person);
-person.greet('Kaka');
-var Person = /** @class */ (function () {
-    function Person() {
-    }
-    Person.prototype.greet = function (lastName) {
-        console.log('Hi ' + this.firstName + ' => ' + lastName);
+    SimpleMath.prototype.calculate = function () {
+        return +this.baseValue * +this.multiplyValue;
     };
-    return Person;
+    return SimpleMath;
 }());
-var myPerson = new Person();
-console.log(myPerson);
-myPerson.firstName = 'Nika';
-greet(myPerson);
-myPerson.greet(' ttt ');
-var myDoubleFunction;
-myDoubleFunction = function (value1, value2) {
-    return (value1 + value2) * 2;
-};
-console.log(myDoubleFunction(10, 20));
+var simpleMath = new SimpleMath();
+simpleMath.baseValue = true;
+simpleMath.multiplyValue = 20;
+console.log(simpleMath.calculate());

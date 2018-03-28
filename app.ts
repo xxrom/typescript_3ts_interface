@@ -1,62 +1,50 @@
-interface NamedPerson {
-  firstName: string;
-  age?: number; // option argument
-  [propName: string]: any; // еще добавляем одну переменную, любую и не обязательную
-  greet(lastName: string): void; // метод объявляем
+// Simple Generic
+function echo(data: any) {
+  return data;
+}// get anything inside =)
+
+console.log(echo("niktia").length);
+console.log(echo(27));
+console.log(echo({ name: 'Nikita', age: 22 }));
+
+// Better Generic
+function betterEcho<T>(data: T) {
+  return data;
 }
 
-function greet(person: NamedPerson) {
-  console.log('Hello, ' + person.firstName);
-}
+console.log(betterEcho("niktia").length);
+// console.log(betterEcho(27).length); // cant use length, because this is number
+console.log(betterEcho({ name: 'Nikita', age: 22 }));
 
-function changeName(person: NamedPerson) {
-  person.firstName = 'annA';
-}
+// Built-in Generics
+const testResults: Array<number> = [1.88, 2.33];
+testResults.push(-2.22);
+// testResults.push('string'); // error, should be number
+console.log(testResults);
 
-const person = {
-  firstName: "Nikita",
-  age: 22,
-  hobbies: ['cooking', 'sport'],
-  greet(lastName: string) {
-    console.log('Hi ' + this.firstName + ' => ' + lastName);
+// Arrays
+function printAll<T>(args: T[]) {
+  args.forEach((element) => console.log(element));
+}
+printAll<string>(['string', 'apple']);
+
+
+// Generic Types
+const echo2: <T>(data: T) => T = echo;
+
+console.log(echo2<string>('Something'));
+
+// Generic Class
+// можно указывать определенные класы к определенным переменным
+class SimpleMath<T extends number | boolean, U extends number | string> {
+  baseValue: T; // эта ошибка инициализации появилась только с 2.7 ts
+  multiplyValue: U;
+  calculate(): number {
+    return +this.baseValue * +this.multiplyValue;
   }
 }
 
-// greet(person); // не проверяем все параметры в объекте!!!
-// greet({ firstName: 'name', age: 22 }); // проверяем все параметры и полное соответсвие !!!
-
-changeName(person);
-greet(person);
-person.greet('Kaka');
-
-
-class Person implements NamedPerson {
-  firstName: string;
-  lastName: string;
-  greet(lastName: string) {
-    console.log('Hi ' + this.firstName + ' => ' + lastName);
-  }
-  // constructor() { // убирает ошибку при инициализации firstName: string;
-  //   this.firstName = 'hello';
-  // }
-}
-
-const myPerson = new Person();
-console.log(myPerson);
-myPerson.firstName = 'Nika';
-
-greet(myPerson);
-myPerson.greet(' ttt ');
-
-// Function Types
-
-interface DoubleValueFunc {
-  (number1: number, number2: number): number;
-}
-
-let myDoubleFunction: DoubleValueFunc;
-myDoubleFunction = function(value1: number, value2: number) {
-  return (value1 + value2) * 2;
-}
-
-console.log(myDoubleFunction(10, 20));
+const simpleMath = new SimpleMath<boolean, number>();
+simpleMath.baseValue = true;
+simpleMath.multiplyValue = 20;
+console.log(simpleMath.calculate());
