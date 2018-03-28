@@ -30,3 +30,20 @@ greet(person);
 person.greet('Kaka');
 
 
+class Person implements NamedPerson {
+  firstName: string;
+  lastName: string;
+  greet(lastName: string) {
+    console.log('Hi ' + this.firstName + ' => ' + lastName);
+  }
+  // constructor() { // убирает ошибку при инициализации firstName: string;
+  //   this.firstName = 'hello';
+  // }
+}
+
+const myPerson = new Person();
+console.log(myPerson);
+myPerson.firstName = 'Nika';
+
+greet(myPerson);
+myPerson.greet(' ttt ');

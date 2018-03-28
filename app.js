@@ -17,3 +17,16 @@ var person = {
 changeName(person);
 greet(person);
 person.greet('Kaka');
+var Person = /** @class */ (function () {
+    function Person() {
+    }
+    Person.prototype.greet = function (lastName) {
+        console.log('Hi ' + this.firstName + ' => ' + lastName);
+    };
+    return Person;
+}());
+var myPerson = new Person();
+console.log(myPerson);
+myPerson.firstName = 'Nika';
+greet(myPerson);
+myPerson.greet(' ttt ');
